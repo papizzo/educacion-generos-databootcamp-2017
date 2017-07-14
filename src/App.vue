@@ -2,6 +2,7 @@
   <div id="app">
     <v-map :zoom="zoom" :center="center" style="height: 500px">
       <v-geojson-layer :geojson="deptosData" :options="geojsonOptions"></v-geojson-layer>
+      <InfoControl :data="currentDpto" unit="mujeres" title="Departamento" placeholder="Elija departamento"></InfoControl>
     </v-map>
     <!--<router-view></router-view>-->
   </div>
@@ -10,27 +11,39 @@
 <script>
 import { deptosData } from './py-departamentos'
 import { datosDepartamentos } from './datos-departamentos'
+import InfoControl from './InfoControl.vue'
 import Vue2Leaflet from 'vue2-leaflet'
 import chroma from 'chroma-js'
 
-const mouseover = ({ target }) => {
+
+function mouseover({ target }) {
   target.setStyle({
     weight: 5,
     color: "#666",
     dashArray: ""
   })
 
+
   if (!L.Browser.ie && !L.Browser.opera) {
     target.bringToFront()
   }
+
+  let dptoGeo = target.feature.properties
+
+  let dpto = datosDepartamentos.find(x => x.departamento_id === Number(dptoGeo.dpto))
+  this.currentDpto = { name: dpto.departamento_nombre, value: dpto.cantidad }
+
 }
 
-const mouseout = ({ target }) =>
+function mouseout({ target }) {
   target.setStyle({
     weight: 2,
     color: "#FFF",
     dashArray: ""
   })
+
+  this.currentDpto = { name: "", value: 0 }
+}
 
 const normalizeValue = (value, min, max) =>
   (value - min) / (max - min)
@@ -48,6 +61,7 @@ export default {
       center: L.latLng(-23.752961, -57.854357),
       zoom: 6,
       deptosData,
+      currentDpto: { name: "", value: 0 },
       geojsonOptions: {
         style: feature => {
           let dptoID = Number(feature.properties.dpto)
@@ -74,17 +88,21 @@ export default {
         },
         onEachFeature: (feature, layer) => {
           layer.on({
-            mouseover: mouseover,
-            mouseout: mouseout
+            mouseover: mouseover.bind(this),
+            mouseout: mouseout.bind(this)
           })
-        }
-      }
+        },
+      },
     }
+  },
+  methods: {
+
   },
   components: {
     "v-map": Vue2Leaflet.Map,
     "v-geojson-layer": Vue2Leaflet.GeoJSON,
-    'v-tilelayer': Vue2Leaflet.TileLayer
+    'v-tilelayer': Vue2Leaflet.TileLayer,
+    InfoControl
   }
 }
 </script>
