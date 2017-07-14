@@ -13,6 +13,24 @@ import { datosDepartamentos } from './datos-departamentos'
 import Vue2Leaflet from 'vue2-leaflet'
 import chroma from 'chroma-js'
 
+const mouseover = ({ target }) => {
+  target.setStyle({
+    weight: 5,
+    color: "#666",
+    dashArray: ""
+  })
+
+  if (!L.Browser.ie && !L.Browser.opera) {
+    target.bringToFront()
+  }
+}
+
+const mouseout = ({ target }) =>
+  target.setStyle({
+    weight: 2,
+    color: "#FFF",
+    dashArray: ""
+  })
 
 export default {
   name: 'app',
@@ -47,36 +65,18 @@ export default {
         },
         onEachFeature: (feature, layer) => {
           layer.on({
-            mouseover: this.mouseover,
-            mouseout: this.mouseout,
-            click: this.zoomToFeature
+            mouseover: mouseover,
+            mouseout: mouseout
           })
         }
       }
     }
   },
   methods: {
-    mouseover({ target }) {
-      target.setStyle({
-        weight: 5,
-        dashArray: ""
-      })
-
-      if (!L.Browser.ie && !L.Browser.opera) {
-        target.bringToFront()
-      }
-    },
-    mouseout({ target }) {
-      target.setStyle({
-        weight: 2,
-        dashArray: ""
-      })
-    },
     normalizeValue(d, minValue, maxValue) {
       return (d - minValue) / (maxValue - minValue)
     },
     getColor(colorParam) {
-      console.log("colorParam: ", colorParam)
       let colorScale = chroma
         .scale(["e7d090", "e9ae7b", "de7062"])
         .mode("lch")
