@@ -32,6 +32,15 @@ const mouseout = ({ target }) =>
     dashArray: ""
   })
 
+const normalizeValue = (value, min, max) =>
+  (value - min) / (max - min)
+
+const getColor = param => chroma
+  .scale(["e7d090", "e9ae7b", "de7062"])
+  .mode("lch")
+  .domain([0, 0.25, 1])
+  (normalizeValue(param, 71.56, 91.11)).hex()
+
 export default {
   name: 'app',
   data() {
@@ -60,7 +69,7 @@ export default {
             color: "white",
             dashArray: "3",
             fillOpacity: 0.7,
-            fillColor: this.getColor(colorParam)
+            fillColor: getColor(colorParam)
           }
         },
         onEachFeature: (feature, layer) => {
@@ -70,18 +79,6 @@ export default {
           })
         }
       }
-    }
-  },
-  methods: {
-    normalizeValue(d, minValue, maxValue) {
-      return (d - minValue) / (maxValue - minValue)
-    },
-    getColor(colorParam) {
-      let colorScale = chroma
-        .scale(["e7d090", "e9ae7b", "de7062"])
-        .mode("lch")
-        .domain([0, 0.25, 1])
-      return colorScale(this.normalizeValue(colorParam, 71.56, 91.11)).hex()
     }
   },
   components: {
