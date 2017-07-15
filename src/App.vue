@@ -3,6 +3,7 @@
     <v-map :zoom="zoom" :center="center" style="height: 500px">
       <v-geojson-layer :geojson="deptosData" :options="geojsonOptions"></v-geojson-layer>
       <InfoControl :data="currentDpto" unit="mujeres" title="Departamento" placeholder="Elija departamento"></InfoControl>
+      <ReferenceChart startColor="e7d090" endColor="de7062"></ReferenceChart>
     </v-map>
     <!--<router-view></router-view>-->
   </div>
@@ -12,9 +13,9 @@
 import { deptosData } from './py-departamentos'
 import { datosDepartamentos } from './datos-departamentos'
 import InfoControl from './InfoControl.vue'
+import ReferenceChart from './ReferenceChart'
 import Vue2Leaflet from 'vue2-leaflet'
 import chroma from 'chroma-js'
-
 
 function mouseover({ target }) {
   target.setStyle({
@@ -102,7 +103,8 @@ export default {
     "v-map": Vue2Leaflet.Map,
     "v-geojson-layer": Vue2Leaflet.GeoJSON,
     'v-tilelayer': Vue2Leaflet.TileLayer,
-    InfoControl
+    InfoControl,
+    ReferenceChart
   }
 }
 </script>
