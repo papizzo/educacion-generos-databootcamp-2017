@@ -29,8 +29,8 @@ function mouseover({ target }) {
 
     let dptoGeo = target.feature.properties
 
-    let dpto = this.deptosData.find(x => x.departamento_id === Number(dptoGeo.dpto))
-    this.currentDpto = { name: dpto.departamento_nombre, value: dpto.cantidad }
+    let dpto = this.data.find(x => x[this.idKey] === Number(dptoGeo[this.geojsonIdKey]))
+    this.currentDpto = { name: dpto[this.titleKey], value: dpto[this.valueKey] }
 
 }
 
@@ -44,22 +44,30 @@ function mouseout({ target }) {
     this.currentDpto = { name: "", value: 0 }
 }
 
+const getMin = (array, key) => Math.min(...array.map(x => Number(x[key])))
+
+const getMax = (array, key) => Math.max(...array.map(x => Number(x[key])))
+
+
 const normalizeValue = (value, min, max) =>
     (value - min) / (max - min)
 
-const getColor = (param, colorScale) =>
+const getColor = (param, colorScale, min, max) =>
     chroma
         .scale(colorScale)
         .mode("lch")
-        .domain([0, 0.25, 1])
-        (normalizeValue(param, 71.56, 91.11)).hex()
+        (normalizeValue(param, min, max)).hex()
 
 export default {
     props: [
         "geojson",
-        "deptosData",
+        "data",
         "center",
-        "colorScale"
+        "colorScale",
+        "titleKey",
+        "idKey",
+        "valueKey",
+        "geojsonIdKey"
     ],
     data() {
         return {
@@ -67,25 +75,27 @@ export default {
             currentDpto: { name: "", value: 0 },
             geojsonOptions: {
                 style: feature => {
-                    let dptoID = Number(feature.properties.dpto)
+                    let dptoID = Number(feature.properties[this.geojsonIdKey])
                     let color = "NONE"
-                    let dpto = this.deptosData.find(x => x.departamento_id === dptoID)
+                    let dpto = this.data.find(x => x[this.idKey] === dptoID)
                     if (!dpto) {
                         return {
                             color: "white",
                             weight: 2
                         }
                     }
-                    let canM = dpto.cantidad
-                    let canH = dpto.cantidad_h
-                    let colorParam = dpto.cantidad
+                    let canM = dpto[this.valueKey]
+                    // let canH = dpto.cantidad_h
+                    let colorParam = dpto[this.valueKey]
+                    let min = getMin(this.data, this.valueKey)
+                    let max = getMax(this.data, this.valueKey)
                     return {
                         weight: 2,
                         opacity: 1,
                         color: "white",
                         dashArray: "3",
                         fillOpacity: 0.7,
-                        fillColor: getColor(colorParam, this.colorScale)
+                        fillColor: getColor(colorParam, this.colorScale, min, max)
                     }
                 },
                 onEachFeature: (feature, layer) => {

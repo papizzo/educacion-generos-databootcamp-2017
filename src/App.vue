@@ -1,5 +1,5 @@
 <template>
-  <ChoroplethMap :deptosData="datosDepartamentos" :geojson="geojson" :center="center" :colorScale="colorScale">
+  <ChoroplethMap :data="datosDepartamentos" titleKey="departamento_nombre" idKey="departamento_id" valueKey="cantidad" geojsonIdKey="dpto" :geojson="geojson" :center="center" :colorScale="colorScale">
   </ChoroplethMap>
 </template>
 

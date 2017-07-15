@@ -106,10 +106,5 @@ export var datosDepartamentos = [
     departamento_nombre: "San Pedro",
     cantidad: 90.45,
     cantidad_h: 93.67
-  },
-  {
-    departamento_id: 19,
-    cantidad: " ",
-    cantidad_h: " "
   }
 ]
