@@ -5,10 +5,11 @@
 import chroma from 'chroma-js'
 
 export default {
-    props: ["colorScale"],
+    props: ["colorScale", "title"],
     mounted() {
 
         let colorScale = this.colorScale
+        let referenceTitle = this.title
 
         this.mapObject = L.control({
             position: "topright"
@@ -18,6 +19,7 @@ export default {
             this.update()
             return this._div
         }
+
         this.mapObject.update = function (argument) {
             let labels = []
             let medVal = ""
@@ -42,7 +44,7 @@ export default {
                 ${maxValue.toString()}
                 </span>
                 </div>`
-            this._div.innerHTML = "<span>Cantidad de niñas</span><br>" + gradiente
+            this._div.innerHTML = `<span>${referenceTitle}</span><br>` + gradiente
         }
 
         if (this.$parent._isMounted) {

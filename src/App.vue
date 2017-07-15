@@ -1,6 +1,20 @@
 <template>
-  <ChoroplethMap :data="datosDepartamentos" titleKey="departamento_nombre" idKey="departamento_id" valueKey="cantidad" geojsonIdKey="dpto" :geojson="geojson" :center="center" :colorScale="colorScale">
-  </ChoroplethMap>
+  <ChoroplethMap
+    :data="datosDepartamentos"
+    titleKey="departamento_nombre"
+    idKey="departamento_id"
+    valueKey="cantidad"
+    :extraValues="extraValues"
+    geojsonIdKey="dpto"
+    :geojson="geojson"
+    :center="center"
+    :colorScale="colorScale"
+    referenceTitle="Cantidad de Niñas"
+    dataTitle="Departamento"
+    dataMetric="% mujeres"
+    dataPlaceholder="Elija departamento"
+  >
+    </ChoroplethMap>
 </template>
 
 <script>
@@ -16,7 +30,11 @@ export default {
       center: L.latLng(-23.752961, -57.854357),
       datosDepartamentos,
       geojson,
-      colorScale: ["e7d090", "e9ae7b", "de7062"]
+      colorScale: ["e7d090", "e9ae7b", "de7062"],
+      extraValues: [{
+        key: "cantidad_h",
+        metric: "% hombres"
+      }]
     }
   }
 }

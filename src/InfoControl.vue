@@ -25,10 +25,16 @@ export default {
             this.update({ name: "", value: 0, unit, placeholder, title })
             return this._div
         }
-        this.mapObject.update = function ({ name, value, unit, title, placeholder }) {
+        this.mapObject.update = function ({ name, value, extraValues = undefined, unit, title, placeholder }) {
             if (name.length > 0) {
                 this._div.innerHTML = `<h4> ${title} </h4>
                     <b> ${name} </b><br /> ${value} ${unit}`
+                if (extraValues) {
+                    for (let x of extraValues) {
+                        this._div.innerHTML = this._div.innerHTML +
+                            `<br /> ${x.value} ${x.metric}`
+                    }
+                }
             } else {
                 this._div.innerHTML = `<h4> ${title} </h4> <b> ${placeholder} </b>`
             }
