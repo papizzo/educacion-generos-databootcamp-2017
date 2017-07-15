@@ -7,11 +7,13 @@ import chroma from 'chroma-js'
 export default {
     props: {
         startColor: String,
+        midColor: String,
         endColor: String
     },
     mounted() {
 
         let startColor = this.startColor
+        let midColor = this.midColor
         let endColor = this.endColor
 
         this.mapObject = L.control({
@@ -31,7 +33,7 @@ export default {
             }
 
             console.log("Start Color: ", startColor)
-            let colors = chroma.scale([startColor, endColor]).mode('lch').colors(10)
+            let colors = chroma.scale([startColor, midColor, endColor]).mode('lch').colors(100)
             console.log("Colors: ", colors)
 
             let gradiente = '<div class="gradient">';
@@ -64,20 +66,6 @@ export default {
 }
 </script>
 <style>
-.info {
-    padding: 10px 10px;
-    font: 20px/22px Arial, Helvetica, sans-serif;
-    background: white;
-    background: rgba(255, 255, 255, 0.8);
-    box-shadow: 10 10 15px rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-}
-
-.info h4 {
-    margin: 10 10 15px;
-    color: #777;
-}
-
 .info.legend span {
     display: block;
 }
@@ -94,7 +82,7 @@ export default {
 .grad-step {
     display: inline-block;
     height: 20px;
-    width: 10%;
+    width: 1%;
 }
 
 .gradient .domain-min {

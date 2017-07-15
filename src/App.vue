@@ -3,7 +3,7 @@
     <v-map :zoom="zoom" :center="center" style="height: 500px">
       <v-geojson-layer :geojson="deptosData" :options="geojsonOptions"></v-geojson-layer>
       <InfoControl :data="currentDpto" unit="mujeres" title="Departamento" placeholder="Elija departamento"></InfoControl>
-      <ReferenceChart startColor="e7d090" endColor="de7062"></ReferenceChart>
+      <ReferenceChart startColor="e7d090" midColor="e9ae7b" endColor="de7062"></ReferenceChart>
     </v-map>
     <!--<router-view></router-view>-->
   </div>
