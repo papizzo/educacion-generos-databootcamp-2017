@@ -3,7 +3,7 @@
         <v-map :zoom="zoom" :center="center" style="height: 500px">
             <v-geojson-layer :geojson="geojson" :options="geojsonOptions"></v-geojson-layer>
             <InfoControl :data="currentDpto" unit="mujeres" title="Departamento" placeholder="Elija departamento"></InfoControl>
-            <ReferenceChart startColor="e7d090" midColor="e9ae7b" endColor="de7062"></ReferenceChart>
+            <ReferenceChart :colorScale="colorScale"></ReferenceChart>
         </v-map>
         <!--<router-view></router-view>-->
     </div>
@@ -47,20 +47,22 @@ function mouseout({ target }) {
 const normalizeValue = (value, min, max) =>
     (value - min) / (max - min)
 
-const getColor = param => chroma
-    .scale(["e7d090", "e9ae7b", "de7062"])
-    .mode("lch")
-    .domain([0, 0.25, 1])
-    (normalizeValue(param, 71.56, 91.11)).hex()
+const getColor = (param, colorScale) =>
+    chroma
+        .scale(colorScale)
+        .mode("lch")
+        .domain([0, 0.25, 1])
+        (normalizeValue(param, 71.56, 91.11)).hex()
 
 export default {
     props: [
         "geojson",
-        "deptosData"
+        "deptosData",
+        "center",
+        "colorScale"
     ],
     data() {
         return {
-            center: L.latLng(-23.752961, -57.854357),
             zoom: 6,
             currentDpto: { name: "", value: 0 },
             geojsonOptions: {
@@ -83,7 +85,7 @@ export default {
                         color: "white",
                         dashArray: "3",
                         fillOpacity: 0.7,
-                        fillColor: getColor(colorParam)
+                        fillColor: getColor(colorParam, this.colorScale)
                     }
                 },
                 onEachFeature: (feature, layer) => {

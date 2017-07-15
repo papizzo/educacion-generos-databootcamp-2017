@@ -5,16 +5,10 @@
 import chroma from 'chroma-js'
 
 export default {
-    props: {
-        startColor: String,
-        midColor: String,
-        endColor: String
-    },
+    props: ["colorScale"],
     mounted() {
 
-        let startColor = this.startColor
-        let midColor = this.midColor
-        let endColor = this.endColor
+        let colorScale = this.colorScale
 
         this.mapObject = L.control({
             position: "topright"
@@ -32,7 +26,7 @@ export default {
                 medVal = Math.floor(maxValue / 2).toString()
             }
 
-            let colors = chroma.scale([startColor, midColor, endColor]).mode('lch').colors(100)
+            let colors = chroma.scale(colorScale).mode('lch').colors(100)
 
             let gradiente = '<div class="gradient">';
 

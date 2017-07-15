@@ -1,5 +1,5 @@
 <template>
-  <ChoroplethMap :deptosData="datosDepartamentos" :geojson="geojson">
+  <ChoroplethMap :deptosData="datosDepartamentos" :geojson="geojson" :center="center" :colorScale="colorScale">
   </ChoroplethMap>
 </template>
 
@@ -13,8 +13,10 @@ export default {
   components: { ChoroplethMap },
   data() {
     return {
+      center: L.latLng(-23.752961, -57.854357),
       datosDepartamentos,
-      geojson
+      geojson,
+      colorScale: ["e7d090", "e9ae7b", "de7062"]
     }
   }
 }
