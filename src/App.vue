@@ -17,6 +17,14 @@
       dataPlaceholder="Elija departamento"
     >
       </ChoroplethMap>
+      <p>
+        <strong>Por:</strong> Paz Italiano | Gabriela Gaona | Belen Gimenez | Guillermo Peralta | Paty Samudio
+      </p>
+      <p style="text-align: right">
+        <a href="https://github.com/voluntadpear/educacion-generos-databootcamp-2017">
+          GitHub
+        </a>
+      </p>
   </div>
 </template>
 
