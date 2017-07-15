@@ -32,9 +32,7 @@ export default {
                 medVal = Math.floor(maxValue / 2).toString()
             }
 
-            console.log("Start Color: ", startColor)
             let colors = chroma.scale([startColor, midColor, endColor]).mode('lch').colors(100)
-            console.log("Colors: ", colors)
 
             let gradiente = '<div class="gradient">';
 
