@@ -1,27 +1,25 @@
 <template>
-    <div id="app">
-        <v-map
-            :zoom="zoom"
-            :center="center"
-            style="height: 500px"
-        >
-            <v-geojson-layer
-                :geojson="geojson"
-                :options="geojsonOptions"
-            ></v-geojson-layer>
-                <InfoControl
-                    :data="currentItem"
-                    :unit="dataMetric"
-                    :title="dataTitle"
-                    :placeholder="dataPlaceholder"
-                ></InfoControl>
-                    <ReferenceChart
-                        :colorScale="colorScale"
-                        :title="referenceTitle"
-                    ></ReferenceChart>
-                        </v-map>
-                        <!--<router-view></router-view>-->
-    </div>
+    <v-map
+        id="map"
+        :zoom="zoom"
+        :center="center"
+        style="height: 500px"
+    >
+        <v-geojson-layer
+            :geojson="geojson"
+            :options="geojsonOptions"
+        ></v-geojson-layer>
+            <InfoControl
+                :data="currentItem"
+                :unit="value.metric"
+                :title="dataTitle"
+                :placeholder="dataPlaceholder"
+            ></InfoControl>
+                <ReferenceChart
+                    :colorScale="colorScale"
+                    :title="referenceTitle"
+                ></ReferenceChart>
+                    </v-map>
 </template>
 
 <script>
@@ -45,7 +43,7 @@ function mouseover({ target }) {
     let geojsonItem = target.feature.properties
 
     let item = this.data.find(x => x[this.idKey] === Number(geojsonItem[this.geojsonIdKey]))
-    let tempItem = { name: item[this.titleKey], value: item[this.valueKey] }
+    let tempItem = { name: item[this.titleKey], value: item[this.value.key] }
     if (this.extraValues) {
         let tempValues = [];
         for (let x of this.extraValues) {
@@ -65,7 +63,6 @@ function mouseout({ target }) {
         color: "#FFF",
         dashArray: ""
     })
-    console.log("MouseOut: ")
     this.currentItem = { name: "", value: 0 }
 }
 
@@ -91,12 +88,11 @@ export default {
         "colorScale",
         "titleKey",
         "idKey",
-        "valueKey",
+        "value",
         "extraValues",
         "geojsonIdKey",
         "referenceTitle",
         "dataTitle",
-        "dataMetric",
         "dataPlaceholder"
     ],
     data() {
@@ -115,9 +111,9 @@ export default {
                         }
                     }
                     // let canH = dpto.cantidad_h
-                    let valueParam = item[this.valueKey]
-                    let min = getMin(this.data, this.valueKey)
-                    let max = getMax(this.data, this.valueKey)
+                    let valueParam = item[this.value.key]
+                    let min = getMin(this.data, this.value.key)
+                    let max = getMax(this.data, this.value.key)
                     return {
                         weight: 2,
                         opacity: 1,
