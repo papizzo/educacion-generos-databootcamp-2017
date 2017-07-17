@@ -19,12 +19,14 @@
                     :colorScale="colorScale"
                     :title="referenceTitle"
                 ></ReferenceChart>
+                    <scope>
+                    </scope>
                     </v-map>
 </template>
 
 <script>
 import InfoControl from './InfoControl.vue'
-import ReferenceChart from './ReferenceChart'
+import ReferenceChart from './ReferenceChart.vue'
 import Vue2Leaflet from 'vue2-leaflet'
 import chroma from 'chroma-js'
 
@@ -144,7 +146,3 @@ export default {
     }
 }
 </script>
-
-<style>
-@import "../node_modules/leaflet/dist/leaflet.css";
-</style>

@@ -29,9 +29,9 @@
 </template>
 
 <script>
-import ChoroplethMap from './ChoroplethMap'
-import { geojson } from './py-departamentos'
-import { datosDepartamentos } from './datos-departamentos'
+import ChoroplethMap from './components/ChoroplethMap'
+import { geojson } from './data/py-departamentos'
+import { datosDepartamentos } from './data/datos-departamentos'
 
 export default {
   name: "app",
@@ -55,6 +55,7 @@ export default {
 }
 </script>
 <style>
+@import "../node_modules/leaflet/dist/leaflet.css";
 @import "https://fonts.googleapis.com/css?family=Dosis:400,600";
 @import "styles/theme.css";
 
