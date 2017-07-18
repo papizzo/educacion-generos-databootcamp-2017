@@ -15,6 +15,7 @@
       referenceTitle="Cantidad de Niñas"
       dataTitle="Departamento"
       dataPlaceholder="Elija departamento"
+      mapStyle="height: 500px;"
     >
       </ChoroplethMap>
       <p>
@@ -29,13 +30,13 @@
 </template>
 
 <script>
-import ChoroplethMap from './components/ChoroplethMap'
+import ChoroplethMap from 'vue-choropleth'
 import { geojson } from './data/py-departamentos'
 import { datosDepartamentos } from './data/datos-departamentos'
 
 export default {
   name: "app",
-  components: { ChoroplethMap },
+  components: { "ChoroplethMap": ChoroplethMap },
   data() {
     return {
       center: L.latLng(-23.752961, -57.854357),
