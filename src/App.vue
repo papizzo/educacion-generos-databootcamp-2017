@@ -3,7 +3,7 @@
     <h1>
       Niñas en las Escuelas</h1>
     <ChoroplethMap
-      :data="datos"
+      :data="formattedData"
       titleKey="departamento_nombre"
       idKey="departamento_id"
       :value="value"
@@ -77,6 +77,17 @@ export default {
       mapOptions: {
         attributionControl: false
       }
+    }
+  },
+  computed: {
+    formattedData() {
+      let newData = this.datos.map(x => ({
+        ...x,
+        poblacion_masculina_5_14: x.poblacion_masculina_5_14.toLocaleString("es-PY"),
+        poblacion_femenina_5_14: x.poblacion_femenina_5_14.toLocaleString("es-PY")
+      }))
+      console.log("New Data: ", newData)
+      return newData
     }
   }
 }
