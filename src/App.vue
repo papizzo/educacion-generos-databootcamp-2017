@@ -42,7 +42,6 @@
 import ChoroplethMap from 'vue-choropleth'
 import geojson from './data/paraguay.json'
 import datos from './data/datos.json'
-import { datosDepartamentos } from './data/datos-departamentos'
 
 export default {
   name: "app",
